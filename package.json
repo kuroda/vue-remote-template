@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.16.1",
+    "form-serialize": "^0.7.1",
     "vue": "^2.3.3",
     "vue-data-scooper": "^0.5.0"
   }
