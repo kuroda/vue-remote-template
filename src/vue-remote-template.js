@@ -1,18 +1,13 @@
+import Vue from "vue/dist/vue.esm"
 import Axios from "axios"
 import { getInitialData } from "vue-data-scooper"
+
+Vue.config.productionTip = false
 
 function parseTemplate(template) {
   const parser = new DOMParser()
   const doc = parser.parseFromString(template, "text/html")
-  const root = doc.querySelector("body > *")
-  let title = undefined
-
-  if (root.hasAttribute("title")) {
-    title = root.getAttribute("title")
-    root.removeAttribute("title")
-  }
-
-  return [ root, title ]
+  return doc.querySelector("body > *")
 }
 
 const VueRemoteTemplate = {
@@ -23,6 +18,7 @@ const VueRemoteTemplate = {
     const root = document.querySelector(this.$options.el)
     return {
       parsedTemplate: undefined,
+      handlerName: undefined,
       path: undefined,
       initialPath: root.dataset.initialPath
     }
@@ -32,12 +28,17 @@ const VueRemoteTemplate = {
       let self = this
       Axios.get(val)
         .then(function(response) {
-          const [ root, title ] = parseTemplate(response.data)
+          const root = parseTemplate(response.data)
+          const metadata = root.dataset.meta ?
+            JSON.parse(root.dataset.meta) : {}
+
+          if (metadata.url)
+            window.history.pushState({ path: self.path }, "", metadata.url)
+          if (metadata.title)
+            window.document.title = metadata.title
+
+          self.handlerName = metadata.handler
           self.parsedTemplate = root
-          if (response.headers["document-title"])
-            window.document.title = response.headers["document-title"]
-          else if (title)
-            window.document.title = title
         })
         .catch(function(error) {
           console.log(error)
@@ -48,22 +49,21 @@ const VueRemoteTemplate = {
     dynamicComponent: function() {
       if (this.parsedTemplate) {
         let self = this
-        return {
+        const base = {
           template: self.parsedTemplate.outerHTML,
           data: function() {
             return Object.assign({}, self.initialData)
           },
           methods: {
-            visit: function(templatePath, url) {
-              if (!url) url = templatePath
-              window.history.pushState({ path: templatePath }, "", url)
-              self.path = templatePath
-            },
-            show: function(templatePath) {
+            visit: function(templatePath) {
               self.path = templatePath
             }
           }
         }
+        if (this.handlerName)
+          return Vue.extend({ mixins: [ base, this.handlers[this.handlerName] ] })
+        else
+          return Vue.extend({ mixins: [ base ] })
       }
       else {
         return ""
@@ -77,6 +77,7 @@ const VueRemoteTemplate = {
     const self = this
 
     self.path = self.initialPath
+    self.handlerName = self.initialHandlerName
 
     window.onpopstate = function(event) {
       if (event.state && event.state.path)
