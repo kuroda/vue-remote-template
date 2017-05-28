@@ -19,12 +19,12 @@ const VueRemoteTemplate = {
     return {
       parsedTemplate: undefined,
       handlerName: undefined,
-      path: undefined,
-      initialPath: root.dataset.initialPath
+      templatePath: undefined,
+      initialTemplatePath: root.dataset.initialTemplatePath
     }
   },
   watch: {
-    path: function(val, _oldVal) {
+    templatePath: function(val, _oldVal) {
       let self = this
       Axios.get(val)
         .then(function(response) {
@@ -33,7 +33,7 @@ const VueRemoteTemplate = {
             JSON.parse(root.dataset.meta) : {}
 
           if (metadata.url)
-            window.history.pushState({ path: self.path }, "", metadata.url)
+            window.history.pushState({ templatePath: self.templatePath }, "", metadata.url)
           if (metadata.title)
             window.document.title = metadata.title
 
@@ -56,7 +56,7 @@ const VueRemoteTemplate = {
           },
           methods: {
             visit: function(templatePath) {
-              self.path = templatePath
+              self.templatePath = templatePath
             }
           }
         }
@@ -76,14 +76,14 @@ const VueRemoteTemplate = {
   mounted: function() {
     const self = this
 
-    self.path = self.initialPath
+    self.templatePath = self.initialTemplatePath
     self.handlerName = self.initialHandlerName
 
     window.onpopstate = function(event) {
-      if (event.state && event.state.path)
-        self.path = event.state.path
+      if (event.state && event.state.templatePath)
+        self.templatePath = event.state.templatePath
       else
-        self.path = self.initialPath
+        self.templatePath = self.initialTemplatePath
     }
   }
 }
