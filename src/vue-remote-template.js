@@ -1,6 +1,20 @@
 import Axios from "axios"
 import { getInitialData } from "vue-data-scooper"
 
+function parseTemplate(template) {
+  const parser = new DOMParser()
+  const doc = parser.parseFromString(template, "text/html")
+  const root = doc.querySelector("body > *")
+  let title = undefined
+
+  if (root.hasAttribute("title")) {
+    title = root.getAttribute("title")
+    root.removeAttribute("title")
+  }
+
+  return [ root, title ]
+}
+
 const VueRemoteTemplate = {
   render: function(h) {
     return h(this.dynamicComponent)
@@ -8,7 +22,7 @@ const VueRemoteTemplate = {
   data: function() {
     const root = document.querySelector(this.$options.el)
     return {
-      template: undefined,
+      parsedTemplate: undefined,
       path: undefined,
       initialPath: root.dataset.initialPath
     }
@@ -18,7 +32,12 @@ const VueRemoteTemplate = {
       let self = this
       Axios.get(val)
         .then(function(response) {
-          self.template = response.data
+          const [ root, title ] = parseTemplate(response.data)
+          self.parsedTemplate = root
+          if (response.headers["document-title"])
+            window.document.title = response.headers["document-title"]
+          else if (title)
+            window.document.title = title
         })
         .catch(function(error) {
           console.log(error)
@@ -27,10 +46,10 @@ const VueRemoteTemplate = {
   },
   computed: {
     dynamicComponent: function() {
-      if (this.template) {
+      if (this.parsedTemplate) {
         let self = this
         return {
-          template: self.template,
+          template: self.parsedTemplate.outerHTML,
           data: function() {
             return Object.assign({}, self.initialData)
           },
@@ -51,11 +70,7 @@ const VueRemoteTemplate = {
       }
     },
     initialData: function() {
-      const parser = new DOMParser()
-      const doc = parser.parseFromString(this.template, "text/html")
-      const root = doc.querySelector("body > *")
-
-      return getInitialData(root)
+      return getInitialData(this.parsedTemplate)
     }
   },
   mounted: function() {
