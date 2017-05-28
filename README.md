@@ -48,3 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
   <button type="button" @click="visit('/hello.html')">Click me!</button>
 </div>
 ```
+
+## Demo
+
+See https://github.com/kuroda/vue-rails-form-builder-demo.
