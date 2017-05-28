@@ -6,59 +6,11 @@ A Vue.js mixin to fetch template via Ajax
 
 ## Synopsis
 
-`app/config/routes.rb`
-
-```ruby
-Rails.application.routes.draw do
-  root 'top#index'
-  get 'hello' => 'templates#hello'
-  get 'goodbye' => 'templates#goodbye'
-end
-```
-
-`app/controllers/templates_controller.rb`
-
-```ruby
-class TemplatesController < ApplicationController
-  layout false
-
-  def hello; end
-  def goodbye; end
-end
-```
-
-`app/views/top/index.html.erb`
-
-```erb
-<div id="app" data-initial-template-path="/hello"></div>
-
-<%= javascript_pack_tag 'app' %>
-```
-
-`app/views/templates/hello.html.erb`
-
-```erb
-<div data-meta='{ "title": "Greeting" }' data-name='Alice'>
-  <div>Hello, {{name}}!</div>
-  <button type="button" @click="visit('/goodbye')">Click me!</button>
-</div>
-```
-
-`app/views/templates/goodbye.html.erb`
-
-```erb
-<div data-meta='{ "title": "Farewell" }' data-name='Alice'>
-  <div>Goodbye, {{name}}!</div>
-  <button type="button" @click="visit('/hello')">Click me!</button>
-</div>
-```
-
-`app/javascript/packs/app.js`
+`/app.js`
 
 ```javascript
 import Vue from "vue/dist/vue.esm"
 import VueRemoteTemplate from "vue-remote-template"
-
 const MyVue = Vue.extend({ mixins: [ VueRemoteTemplate ] })
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -66,4 +18,33 @@ document.addEventListener("DOMContentLoaded", () => {
     el: "#app"
   )
 })
+```
+
+`/index.html`
+
+```html
+<html>
+<body>
+  <div id="app" data-initial-template-path="/hello.html"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
+```
+
+`/hello.html`
+
+```html
+<div data-meta='{ "title": "Greeting" }' data-name='Alice'>
+  <div>Hello, {{name}}!</div>
+  <button type="button" @click="visit('/goodbye.html')">Click me!</button>
+</div>
+```
+
+`/goodbye.html`
+
+```html
+<div data-meta='{ "title": "Farewell" }' data-name='Alice'>
+  <div>Goodbye, {{name}}!</div>
+  <button type="button" @click="visit('/hello.html')">Click me!</button>
+</div>
 ```
