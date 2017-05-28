@@ -1,5 +1,9 @@
 # CHANGELOG - vue-remote-template
 
+## 0.4.0 (2017-05-28)
+
+* Add `submit` method to the dynamic components.
+
 ## 0.3.0 (2017-05-28)
 
 * Add handler support.
