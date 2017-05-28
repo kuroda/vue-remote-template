@@ -29,9 +29,10 @@ const VueRemoteTemplate = {
     const root = document.querySelector(this.$options.el)
     return {
       parsedTemplate: undefined,
-      handlerName: undefined,
       templatePath: undefined,
-      initialTemplatePath: root.dataset.initialTemplatePath
+      initialTemplatePath: root.dataset.initialTemplatePath,
+      handlerName: undefined,
+      initialHandlerName: undefined
     }
   },
   watch: {
