@@ -151,10 +151,12 @@ You can call the `submit` method to submit form data via Ajax call.
 </form>
 ```
 
-When the user clicks on the "Update" button, an Ajax access via `PATCH` method
-is executed to the `/users/123`.
+When the user clicks on the "Update" button, an Ajax request via `PATCH` method
+is submitted to the `/users/123`.
 
-The server must return a text, which is used as remote template to show the result.
+If the server returns a text, it is used as remote template to show the result.
+If the server returns a JSON object, it must contain the `templatePath` key,
+whose value is used to make another Ajax request in order to fetch a remote template.
 
 Note that the `submit` method must be called on the `<form>` element.
 You cannot call it on the elements within a form.
