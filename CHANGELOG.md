@@ -1,5 +1,10 @@
 # CHANGELOG - vue-remote-template
 
+## 0.6.0 (2017-05-29)
+
+* Change the wording "handler" to "extension"
+* Get metadata from the root.dataset directly
+
 ## 0.5.0 (2017-05-29)
 
 * Remove `initialTemplatePath` and `initialHandleName` properties.
