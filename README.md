@@ -139,6 +139,29 @@ Here is an example of remote template:
 </div>
 ```
 
+## `submit` method
+
+You can call the `submit` method to submit form data via Ajax call.
+
+```html
+<form action="/users/123" method="post" @submit.prevent="submit">
+  <input type="hidden" name="_method" value="patch">
+  <input type="text" name="user[name]" v-model="user.name" value="Alice">
+  <input type="submit" value="Update">
+</form>
+```
+
+When the user clicks on the "Update" button, an Ajax access via `PATCH` method
+is executed to the `/users/123`.
+
+The server must return a text, which is used as remote template to show the result.
+
+Note that the `submit` method must be called on the `<form>` element.
+You cannot call it on the elements within a form.
+
+Also note that the _method_ of Ajax call is determined by the value of a
+hidden element whose name is `_method`.
+
 ## Demo
 
 See https://github.com/kuroda/vue-rails-form-builder-demo.
