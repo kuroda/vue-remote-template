@@ -87,10 +87,10 @@ const VueRemoteTemplate = {
             }
           }
         }
-        if (this.handlerName)
-          return Vue.extend({ mixins: [ base, this.handlers[this.handlerName] ] })
-        else
-          return Vue.extend({ mixins: [ base ] })
+
+        let mixins = [ base ]
+        if (this.handlerName) mixins.push(this.handlers[this.handlerName])
+        return Vue.extend({ mixins: mixins })
       }
       else {
         return ""
