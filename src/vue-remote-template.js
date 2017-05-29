@@ -12,8 +12,12 @@ function processTemplate(vm, template) {
   const metadata = root.dataset.meta ?
     JSON.parse(root.dataset.meta) : {}
 
-  if (metadata.url)
-    window.history.pushState({ templatePath: vm.templatePath }, "", metadata.url)
+  if (metadata.url) {
+    if (vm.parsedTemplate)
+      window.history.pushState({ templatePath: vm.templatePath }, "", metadata.url)
+    else
+      window.history.replaceState({ templatePath: vm.templatePath }, "", metadata.url)
+  }
   if (metadata.title)
     window.document.title = metadata.title
 
