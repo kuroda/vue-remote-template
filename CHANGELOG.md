@@ -1,5 +1,9 @@
 # CHANGELOG - vue-remote-template
 
+## 0.5.0 (2017-05-29)
+
+* Remove `initialTemplatePath` and `initialHandleName` properties.
+
 ## 0.4.0 (2017-05-28)
 
 * Add `submit` method to the dynamic components.
