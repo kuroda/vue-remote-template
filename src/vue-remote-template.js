@@ -21,7 +21,7 @@ function processTemplate(vm, template) {
   if (metadata.title)
     window.document.title = metadata.title
 
-  vm.handlerName = metadata.handler
+  vm.extensionName = metadata.extension
   vm.parsedTemplate = root
 }
 
@@ -44,7 +44,8 @@ const VueRemoteTemplate = {
     return {
       parsedTemplate: undefined,
       templatePath: undefined,
-      handlerName: undefined
+      extensionName: undefined,
+      extensions: {}
     }
   },
   watch: {
@@ -89,7 +90,7 @@ const VueRemoteTemplate = {
         }
 
         let mixins = [ base ]
-        if (this.handlerName) mixins.push(this.handlers[this.handlerName])
+        if (this.extensionName) mixins.push(this.extensions[this.extensionName])
         return Vue.extend({ mixins: mixins })
       }
       else {
