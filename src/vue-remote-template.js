@@ -25,6 +25,16 @@ function processTemplate(vm, template) {
   vm.parsedTemplate = root
 }
 
+function fetchTemplate(vm) {
+  Axios.get(vm.templatePath)
+    .then(function(response) {
+      processTemplate(vm, response.data)
+    })
+    .catch(function(error) {
+      console.log(error)
+    })
+}
+
 const VueRemoteTemplate = {
   render: function(h) {
     return h(this.dynamicComponent)
@@ -34,21 +44,12 @@ const VueRemoteTemplate = {
     return {
       parsedTemplate: undefined,
       templatePath: undefined,
-      initialTemplatePath: root.dataset.initialTemplatePath,
-      handlerName: undefined,
-      initialHandlerName: undefined
+      handlerName: undefined
     }
   },
   watch: {
-    templatePath: function(val, _oldVal) {
-      const self = this
-      Axios.get(val)
-        .then(function(response) {
-          processTemplate(self, response.data)
-        })
-        .catch(function(error) {
-          console.log(error)
-        })
+    templatePath: function() {
+      if (this.templatePath) fetchTemplate(this)
     }
   },
   computed: {
@@ -102,15 +103,12 @@ const VueRemoteTemplate = {
   mounted: function() {
     const self = this
 
-    self.templatePath = self.initialTemplatePath
-    self.handlerName = self.initialHandlerName
-
     window.onpopstate = function(event) {
       if (event.state && event.state.templatePath)
         self.templatePath = event.state.templatePath
-      else
-        self.templatePath = self.initialTemplatePath
     }
+
+    if (self.templatePath) fetchTemplate(self)
   }
 }
 
