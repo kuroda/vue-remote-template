@@ -60,8 +60,8 @@ a input via `v-model` directive,
 you must provide an _extension_.
 
 ```javascript
-// hello_extension.js
-export const helloExtension = {
+// greeting.js
+export const greeting = {
   data: function() {
     return {
       name: "Alice"
@@ -78,7 +78,7 @@ You can register extensions to the `extensions` property.
 // app.js
 import Vue from "vue/dist/vue.esm"
 import VueRemoteTemplate from "vue-remote-template"
-import { helloExtension } from "./hello_extension"
+import { greeting } from "./greeting"
 
 document.addEventListener("DOMContentLoaded", () => {
   new Vue({
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
     data: {
       templatePath: "/hello",
       extensions: {
-        hello: helloExtension
+        greeting: greeting
       }
     }
   )
@@ -98,7 +98,7 @@ The name of extension must be specified by the `data-extension` attribute of
 the root element of remote template:
 
 ```html
-<div data-extension="hello">
+<div data-extension="greeting">
   <div>Hello, {{name}}!</div>
 </div>
 ```
@@ -106,8 +106,36 @@ the root element of remote template:
 The above template produces the following HTML fragment:
 
 ```html
-<div data-extension="hello">
+<div data-extension="greeting">
   <div>Hello, Alice!</div>
+</div>
+```
+
+## `visit` method
+
+You can call the `visit` method to switch the remote template.
+
+```html
+<div>
+  <button type="button" @click="visit('/goodbye')">Click me!</button>
+</div>
+```
+
+When the user clicks on this button on the browser,
+an Ajax access to `/goodbye` is executed and a remote template gets fetched.
+
+If a newly fetched template's root element has the `data-title` attribute,
+its value is set to the document title.
+
+And, a newly fetched template's root element has the `data-url` attribute,
+its value is used to add an entry to the browser's history using
+[window.history.pushState()](https://developer.mozilla.org/en-US/docs/Web/API/History_API#The_pushState()_method) method.
+
+Here is an example of remote template:
+
+```html
+<div data-extension="greeting" data-title="Farewell" data-url="/bye">
+  <div>Goodbye, {{name}}!</div>
 </div>
 ```
 
