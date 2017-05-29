@@ -9,8 +9,7 @@ function processTemplate(vm, template) {
   const parser = new DOMParser()
   const doc = parser.parseFromString(template, "text/html")
   const root = doc.querySelector("body > *")
-  const metadata = root.dataset.meta ?
-    JSON.parse(root.dataset.meta) : {}
+  const metadata = root.dataset || {}
 
   if (metadata.url) {
     if (vm.parsedTemplate)
