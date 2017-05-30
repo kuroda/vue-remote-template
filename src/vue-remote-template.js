@@ -4,6 +4,7 @@ import serialize from "form-serialize"
 import { getInitialData } from "vue-data-scooper"
 
 Vue.config.productionTip = false
+Vue.config.devtools = false
 
 function processTemplate(vm, template) {
   const parser = new DOMParser()
