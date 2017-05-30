@@ -16,6 +16,7 @@
     "vue-data-scooper": "^0.6.0"
   },
   "devDependencies": {
+    "axios-mock-adapter": "^1.8.1",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
     "babel-preset-env": "^1.5.1",

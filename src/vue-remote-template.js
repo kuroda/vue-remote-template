@@ -113,4 +113,7 @@ const VueRemoteTemplate = {
   }
 }
 
+// For test
+export { Axios }
+
 export default VueRemoteTemplate
