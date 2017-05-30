@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     data: {
       templatePath: "/hello"
     }
-  )
+  })
 })
 ```
 
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
         greeting: greeting
       }
     }
-  )
+  })
 })
 ```
 
@@ -167,3 +167,20 @@ hidden element whose name is `_method`.
 ## Demo
 
 See https://github.com/kuroda/vue-rails-form-builder-demo.
+
+## Development Setup
+
+```bash
+# install dependencies
+yarn install
+
+# test
+yarn test
+```
+
+You need the Google Chrome version 59 or higher to run test.
+If you use `google-chrome-beta`, export `CHROME_BIN` environment variable:
+
+```bash
+export CHROME_BIN=$(which google-chrome-beta)
+```
