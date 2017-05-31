@@ -63,8 +63,13 @@ const VueRemoteTemplate = {
             return Object.assign({}, self.initialData)
           },
           methods: {
-            visit: function(templatePath) {
-              self.templatePath = templatePath
+            visit: function(arg) {
+              if (arg instanceof Event)
+                self.templatePath = arg.target.getAttribute("href")
+              else if (typeof arg === "string")
+                self.templatePath = arg
+              else
+                throw "The argument of visit() must be an event or a string."
             },
             submit: function(event) {
               const formData = serialize(event.target, { hash: true })

@@ -113,4 +113,56 @@ describe('VueRemoteTemplate', () => {
       done();
     }, 1);
   })
+
+  it('should process a method call on visit() with path', (done) => {
+    mockAxios
+      .onGet("/templates/1").reply(200,
+        "<span @click='visit(\"/templates/2\")'>Click</span>")
+      .onGet("/templates/2").reply(200, "<div>OK</div>")
+
+    vm = new Vue({
+      mixins: [ VueRemoteTemplate ],
+      el: "#app",
+      data: {
+        templatePath: "/templates/1"
+      }
+    })
+
+    setTimeout(() => {
+      const link = document.body.querySelector('span')
+      link.click()
+    }, 1);
+
+    setTimeout(() => {
+      const div = document.body.querySelector('div')
+      expect(div.textContent).to.eq("OK")
+      done();
+    }, 10);
+  })
+
+  it('should process a method call on visit() without path', (done) => {
+    mockAxios
+      .onGet("/templates/1").reply(200,
+        "<a href='/templates/2' @click.prevent='visit'>Click</a>")
+      .onGet("/templates/2").reply(200, "<div>OK</div>")
+
+    vm = new Vue({
+      mixins: [ VueRemoteTemplate ],
+      el: "#app",
+      data: {
+        templatePath: "/templates/1"
+      }
+    })
+
+    setTimeout(() => {
+      const link = document.body.querySelector('a')
+      link.click()
+    }, 1);
+
+    setTimeout(() => {
+      const div = document.body.querySelector('div')
+      expect(div.textContent).to.eq("OK")
+      done();
+    }, 10);
+  })
 })

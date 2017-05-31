@@ -139,6 +139,18 @@ Here is an example of remote template:
 </div>
 ```
 
+If you use the `visit` method on an `a` element, you can omit argument to the method.
+The `href` value of the `a` element is interpreted as the remote template path.
+
+```html
+<div>
+  <a href="/goodbye" @click.prevent="visit">Click me!</a>
+</div>
+```
+
+Note that you must _prevent_ the default action so that the browser does not
+visit the specified path actually.
+
 ## `submit` method
 
 You can call the `submit` method to submit form data via Ajax call.
