@@ -1,6 +1,6 @@
 {
   "name": "vue-remote-template",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A Vue.js mixin to fetch template via Ajax",
   "main": "src/vue-remote-template.js",
   "repository": "git@github.com:kuroda/vue-remote-template.git",

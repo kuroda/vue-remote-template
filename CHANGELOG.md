@@ -1,5 +1,11 @@
 # CHANGELOG - vue-remote-template
 
+## 0.7.0 (2017-05-31)
+
+* Add a new behavior to the `visit` method of inner (dynamic) components.
+  When this method is called without argument on an `a` element,
+  its `href` value is used as the remote template path.
+
 ## 0.6.0 (2017-05-29)
 
 * Change the wording "handler" to "extension"
