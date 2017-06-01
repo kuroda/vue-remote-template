@@ -1,5 +1,9 @@
 # CHANGELOG - vue-remote-template
 
+## 0.8.0 (2017-06-02)
+
+* Accept JSON data in the form of `{ template: ..., data: ... }`
+
 ## 0.7.0 (2017-05-31)
 
 * Add a new behavior to the `visit` method of inner (dynamic) components.
