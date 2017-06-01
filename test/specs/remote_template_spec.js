@@ -58,6 +58,27 @@ describe('VueRemoteTemplate', () => {
     }, 1);
   })
 
+  it('should render a remote template with data', (done) => {
+    mockAxios.onGet("/templates/1").reply(200, {
+      template: "<div>{{ message }}</div>",
+      data: { message: "Success" }
+    })
+
+    vm = new Vue({
+      mixins: [ VueRemoteTemplate ],
+      el: "#app",
+      data: {
+        templatePath: "/templates/1"
+      }
+    })
+
+    setTimeout(() => {
+      const div = document.body.querySelector('div')
+      expect(div.textContent).to.eq("Success")
+      done();
+    }, 1);
+  })
+
   it('should use an extension', (done) => {
     mockAxios.onGet("/templates/1").reply(200,
       "<div data-extension='greeting'>Hello, {{name}}!</div>"

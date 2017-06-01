@@ -53,6 +53,30 @@ of [vue-data-scooper](https://www.npmjs.com/package/vue-data-scooper) package.
 The above remote template sets the component's `user.name` property to the
 string "Alice".
 
+## Initial Data
+
+The response date from the backend server can be a string or a JSON data.
+
+In the former case, the string will be interpreted as the remote template.
+
+In the latter case, the JSON data should have `template` key and optional `data` key.
+The value of `template` key will be interpreted as the remote template.
+The value of `data` key will be used as the initial data of Vue component.
+
+For example, when the server returns the following JSON data:
+
+```json
+{
+  "template": "<div>{{ message }}</div>",
+  "data": { "message": "Hello, world!" }
+}
+```
+
+Then, the resultant HTML fragment will be `<div>Hello, world!</div>`.
+
+Note that the initial data provided by the JSON data from the server overwrites
+the data set by the `v-model` directives.
+
 ## Extensions
 
 If you want to initialize the component's properties that are not bound to

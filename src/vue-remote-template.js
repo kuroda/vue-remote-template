@@ -6,7 +6,9 @@ import { getInitialData } from "vue-data-scooper"
 Vue.config.productionTip = false
 Vue.config.devtools = false
 
-function processTemplate(vm, template) {
+function processTemplate(vm, response_data) {
+  const template = typeof response_data === "string" ?
+    response_data : response_data.template
   const parser = new DOMParser()
   const doc = parser.parseFromString(template, "text/html")
   const root = doc.querySelector("body > *")
@@ -23,6 +25,7 @@ function processTemplate(vm, template) {
 
   vm.extensionName = metadata.extension
   vm.parsedTemplate = root
+  vm.additionalData = response_data.data ? response_data.data : {}
 }
 
 function fetchTemplate(vm) {
@@ -45,7 +48,8 @@ const VueRemoteTemplate = {
       parsedTemplate: undefined,
       templatePath: undefined,
       extensionName: undefined,
-      extensions: {}
+      extensions: {},
+      additionalData: {}
     }
   },
   watch: {
@@ -84,6 +88,8 @@ const VueRemoteTemplate = {
                 .then(function(response) {
                   if (typeof response.data === "string")
                     processTemplate(self, response.data)
+                  else if (response.data.template)
+                    processTemplate(self, response.data)
                   else
                     self.templatePath = response.data.templatePath
                 })
@@ -103,7 +109,9 @@ const VueRemoteTemplate = {
       }
     },
     initialData: function() {
-      return getInitialData(this.parsedTemplate)
+      const data = getInitialData(this.parsedTemplate)
+      Object.assign(data, this.additionalData)
+      return data
     }
   },
   mounted: function() {
