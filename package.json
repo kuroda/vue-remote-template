@@ -2,18 +2,19 @@
   "name": "vue-remote-template",
   "version": "0.8.0",
   "description": "A Vue.js mixin to fetch template via Ajax",
-  "main": "src/vue-remote-template.js",
+  "main": "dist/vue-remote-template.js",
   "repository": "git@github.com:kuroda/vue-remote-template.git",
   "author": "Tsutomu Kuroda <t-kuroda@oiax.jp>",
   "license": "MIT",
   "scripts": {
+    "build": "webpack",
     "test": "karma start --single-run"
   },
   "dependencies": {
     "axios": "^0.16.1",
     "form-serialize": "^0.7.1",
     "vue": "^2.3.3",
-    "vue-data-scooper": "^0.6.0"
+    "vue-data-scooper": "^0.7.0"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.8.1",
