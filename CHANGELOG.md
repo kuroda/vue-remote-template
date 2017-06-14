@@ -1,5 +1,9 @@
 # CHANGELOG - vue-remote-template
 
+## 0.9.0 (2017-06-14)
+
+* Distribute the code compiled by webpack.
+
 ## 0.8.0 (2017-06-02)
 
 * Accept JSON data in the form of `{ template: ..., data: ... }`

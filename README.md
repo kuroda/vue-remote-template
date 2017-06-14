@@ -220,3 +220,9 @@ If you use `google-chrome-beta`, export `CHROME_BIN` environment variable:
 ```bash
 export CHROME_BIN=$(which google-chrome-beta)
 ```
+
+## Building for distribution
+
+```bash
+yarn build
+```
