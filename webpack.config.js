@@ -3,7 +3,7 @@ module.exports = {
   output: {
     path: __dirname + '/dist',
     filename: 'vue-remote-template.js',
-    library: 'vue-remote-template',
+    library: 'VueRemoteTemplate',
     libraryTarget: 'umd'
   },
   module: {
