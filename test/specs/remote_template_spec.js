@@ -1,6 +1,6 @@
 import Vue from 'vue/dist/vue.esm'
-import VueRemoteTemplate from '../../src/vue-remote-template'
-import { Axios } from '../../src/vue-remote-template'
+import VueRemoteTemplate from '../../dist/vue-remote-template'
+import { Axios } from '../../dist/vue-remote-template'
 import { expect } from 'chai'
 import MockAdapter from 'axios-mock-adapter';
 
